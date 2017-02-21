@@ -44,4 +44,55 @@ class ToDoItemTests: XCTestCase {
     XCTAssertEqual(item.title, "title")
     XCTAssertEqual(item.location?.name, location.name)
   }
+
+  func test_EqualItems_AreEqual() {
+    let first = ToDoItem(title: "Foo")
+    let second = ToDoItem(title: "Foo")
+    XCTAssertEqual(first, second)
+  }
+
+  func test_Items_WhenTitleDiffers_AreNotEqual() {
+    let first = ToDoItem(title: "Foo")
+    let second = ToDoItem(title: "Bar")
+    XCTAssertNotEqual(first, second)
+  }
+  
+  func test_Items_WhenLocationDiffers_AreNotEqual() {
+    let loc1 = Location(name: "loc1")
+    let loc2 = Location(name: "loc2")
+    XCTAssertNotEqual(loc1, loc2)
+    let first = ToDoItem(title: "Foo", location: loc1)
+    let second = ToDoItem(title: "Foo", location: loc2)
+    XCTAssertNotEqual(first, second)
+  }
+
+  func test_Items_WhenOnlyOneLocationNotNil_AreNotEqual() {
+    let first = ToDoItem(title: "Foo", location: Location(name: "Bar"))
+    let second = ToDoItem(title: "Foo", location: nil)
+    XCTAssertNotEqual(first, second)
+    let third = ToDoItem(title: "")
+    let forth = ToDoItem(title: "", location: Location(name: "Bar"))
+    XCTAssertNotEqual(third, forth)
+  }
+
+  func test_Items_WhenTimestampsDiffer_AreNotEqual() {
+    let first = ToDoItem(title: "", timestamp: 1.11243)
+    let second = ToDoItem(title: "", timestamp: 1.11245)
+    XCTAssertNotEqual(first, second)
+  }
+  
+  func test_Items_WhenOnlyOneTimestampIsNil_AreNotEqual() {
+    let first = ToDoItem(title: "Foo", timestamp: 0.0)
+    let second = ToDoItem(title: "Foo")
+    XCTAssertNotEqual(first, second)
+    let third = ToDoItem(title: "", timestamp: nil)
+    let forth = ToDoItem(title: "", timestamp: 1.23)
+    XCTAssertNotEqual(third, forth)
+  }
+
+  func test_Items_WhenDescriptionsDiffer_AreNotEqual() {
+    let first = ToDoItem(title: "Foo", itemDescription: "Bar")
+    let second = ToDoItem(title: "Foo", itemDescription: "Barrr")
+    XCTAssertNotEqual(first, second)
+  }
 }
